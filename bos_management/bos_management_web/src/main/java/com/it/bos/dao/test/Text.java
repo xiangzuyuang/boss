@@ -53,5 +53,9 @@ public class Text {
         standardRepository.save(standard);
        
     }
+    @Test
+    public void test05(){
+        standardRepository.delete(2L);
+    }
 }
   

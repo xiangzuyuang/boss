@@ -21,11 +21,35 @@
 			}
 			
 			function doEdit(){
-				alert("修改...");
+			var resule =$("#grid").datagrid("getSelections")
+			if(resule.length==1){
+				$("#addWindow").window("open")
+				$("#addWindow").form("load",resule[0])
+				
+			}else{
+				$.messager.alert("提示", "您必须也只能选择一条数据进行修改", "info")
+			}
 			}
 			
 			function doDelete(){
-				alert("删除...");
+				var resule =$("#grid").datagrid("getSelections")
+				
+				if(resule.length==0){
+					$.messager.alert("提示", "您必须也只能选择一条数据进行操作", "info")
+				}else{
+					$.messager.confirm("删除对话框",
+							"您确定要作废这些快递员吗？",function(r){
+						if(r){
+							var arr = new Array();
+							for (var i = 0; i < resule.length; i++) {
+								arr.push(resule[i].id)
+							}
+							
+							window.location.href="../../courierAction_batchDel.action?ids="+arr.toString()
+									
+						}
+					})
+				}
 			}
 			
 			function doRestore(){
@@ -109,10 +133,10 @@
 				width : 80,
 				align : 'center',
 				formatter : function(data,row, index){
-					if(data=="0"){
-						return "正常使用"
+					if(data=="1"){
+						return "已作废"
 					}else{
-						return "已作废";
+						return "正常使用";
 					}
 				}
 			}, {
@@ -141,7 +165,7 @@
 					pageList: [30,50,100],
 					pagination : true,
 					toolbar : toolbar,
-					url : "../../data/courier.json",
+					url : "../../courierAction_pageQuery.action",
 					idField : 'id',
 					columns : columns,
 					onDblClickRow : doDblClickRow
@@ -164,6 +188,14 @@
 				alert("双击表格数据...");
 			}
 		</script>
+		  <script type="text/javascript">
+		     function submitDate() {
+			 var result =$("#couriee").form("validate")
+			  if(result){
+				 $("#couriee").submit()
+			 } 
+			}
+		  </script>
 	</head>
 
 	<body class="easyui-layout" style="visibility:hidden;">
@@ -173,12 +205,13 @@
 		<div class="easyui-window" title="对收派员进行添加或者修改" id="addWindow" collapsible="false" minimizable="false" maximizable="false" style="top:20px;left:200px">
 			<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
 				<div class="datagrid-toolbar">
-					<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+					<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true" onclick="submitDate()">保存</a>
 				</div>
 			</div>
 
 			<div region="center" style="overflow:auto;padding:5px;" border="false">
-				<form>
+				<form id="couriee" method="post" 
+				action="../../courierAction_save.action">
 					<table class="table-edit" width="80%" align="center">
 						<tr class="title">
 							<td colspan="4">收派员信息</td>
