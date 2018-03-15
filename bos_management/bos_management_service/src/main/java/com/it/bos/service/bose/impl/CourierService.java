@@ -2,6 +2,7 @@ package com.it.bos.service.bose.impl;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.it.bos.domain.Courier;
 
@@ -17,6 +18,8 @@ public interface CourierService {
     Page<Courier> findAll(Pageable pageable);
 
     void batchDel(String ids);
+
+    Page<Courier> findAll(Specification<Courier> specification, Pageable pageable);
 
 }
   
