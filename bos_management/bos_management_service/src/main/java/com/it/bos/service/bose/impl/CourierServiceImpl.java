@@ -1,5 +1,7 @@
 package com.it.bos.service.bose.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.it.bos.dao.base.CourierRepository;
 import com.it.bos.domain.Courier;
+import com.it.bos.service.bose.CourierService;
 
 /**  
  * ClassName:CourierServiceImpl <br/>  
@@ -53,6 +56,12 @@ public class CourierServiceImpl implements CourierService {
     public Page<Courier> findAll(Specification<Courier> specification, Pageable pageable) {
           
         return courierRepository.findAll(specification, pageable);
+    }
+
+    @Override
+    public List<Courier> findAvaible() {
+          
+        return courierRepository.findByDeltagIsNull();
     }
 
 }

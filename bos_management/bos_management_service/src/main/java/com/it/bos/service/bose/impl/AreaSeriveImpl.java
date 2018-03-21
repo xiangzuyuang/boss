@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.iit.bos.service.bose.AeraService;
 import com.it.bos.dao.base.AreaRepository;
 import com.it.bos.domain.Area;
+import com.it.bos.service.bose.AeraService;
 
 /**  
  * ClassName:AreaSeriveImpl <br/>  
@@ -35,6 +35,13 @@ public class AreaSeriveImpl implements AeraService {
     public Page<Area> findAll(Pageable pageable) {
           
         return areaRepository.findAll(pageable);
+    }
+
+    @Override
+    public List<Area> findByQ(String q) {
+          
+        q= "%" + q.toUpperCase() + "%";
+        return areaRepository.findAll(q);
     }
 
 }

@@ -1,4 +1,6 @@
-package com.it.bos.service.bose.impl;
+package com.it.bos.service.bose;
+
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +22,8 @@ public interface CourierService {
     void batchDel(String ids);
 
     Page<Courier> findAll(Specification<Courier> specification, Pageable pageable);
+
+    List<Courier> findAvaible();
 
 }
   

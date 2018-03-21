@@ -1,4 +1,4 @@
-package com.iit.bos.service.bose;
+package com.it.bos.service.bose;
 
 import java.util.List;
 
@@ -17,6 +17,8 @@ public interface AeraService {
     void save(List<Area> list);
 
     Page<Area> findAll(Pageable pageable);
+
+    List<Area> findByQ(String q);
 
 }
   

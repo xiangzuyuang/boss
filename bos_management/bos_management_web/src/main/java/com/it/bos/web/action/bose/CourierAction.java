@@ -29,7 +29,8 @@ import org.springframework.stereotype.Controller;
 
 import com.it.bos.domain.Courier;
 import com.it.bos.domain.Standard;
-import com.it.bos.service.bose.impl.CourierService;
+import com.it.bos.service.bose.CourierService;
+import com.it.bos.web.action.CommonAction;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -45,17 +46,20 @@ import net.sf.json.JsonConfig;
 @ParentPackage("struts-default")
 @Controller
 @Scope("prototype")
-public class CourierAction extends ActionSupport implements ModelDriven<Courier> {
+public class CourierAction extends CommonAction<Courier> {
+
+    public CourierAction() {
+          
+        super(Courier.class);  
+        // TODO Auto-generated constructor stub  
+        
+    }
 
     private Courier model = new Courier();
     @Autowired
     private CourierService courierService;
 
-    @Override
-    public Courier getModel() {
-        return model;
-    }
-
+    
     @Action(value = "courierAction_save", results = {
             @Result(name = "success", location = "/pages/base/courier.html", type = "redirect")})
     public String save() {
@@ -63,17 +67,7 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
         return SUCCESS;
     }
 
-    private int page;
-    private int rows;
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
-    }
-
+   
     @Action(value = "courierAction_pageQuery", results = {
             @Result(name = "success", location = "/pages/base/courier.html", type = "redirect")})
     public String pageQuery() throws IOException {
@@ -125,20 +119,12 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
 
         Pageable pageable = new PageRequest(page - 1, rows);
         Page<Courier> page = courierService.findAll(specification, pageable);
-        long total = page.getTotalElements();
-        List<Courier> list = page.getContent();
-
-        Map<String, Object> map = new HashMap<>();
-        map.put("total", total);
-        map.put("rows", list);
-
+        
         JsonConfig jsonConfig = new JsonConfig();
         jsonConfig.setExcludes(new String[] {"fixedAreas", "takeTime"});
 
-        String json = JSONObject.fromObject(map, jsonConfig).toString();
-        HttpServletResponse response = ServletActionContext.getResponse();
-        response.setContentType("applicaton/json;charset=UTF-8");
-        response.getWriter().write(json);
+        page2json(page, jsonConfig);
+
 
         return NONE;
     }
@@ -154,5 +140,15 @@ public class CourierAction extends ActionSupport implements ModelDriven<Courier>
     public String batchDel() {
         courierService.batchDel(ids);
         return SUCCESS;
+    }
+    
+   
+    @Action(value = "courierAction_listajax")
+    public String listajax() throws IOException {
+        List<Courier> list =courierService.findAvaible();
+        JsonConfig jsonConfig = new JsonConfig();
+        jsonConfig.setExcludes(new String[] {"fixedAreas", "takeTime"});
+        list2json(list, jsonConfig);
+        return NONE;
     }
 }

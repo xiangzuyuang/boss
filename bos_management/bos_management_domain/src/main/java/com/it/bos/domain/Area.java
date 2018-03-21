@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.core.sym.Name;
+
 /**
  * @description:地域信息实体类，主要包含 省市区(县)
  */
@@ -33,6 +35,16 @@ public class Area {
     private String citycode; // 城市编码
     @Column(name = "C_SHORTCODE")
     private String shortcode; // 简码
+
+    private String name;
+    
+    public String getName() {
+        return province+city+district;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @OneToMany(mappedBy = "area")
     private Set<SubArea> subareas = new HashSet<SubArea>();

@@ -1,4 +1,4 @@
-package com.iit.bos.service.bose;
+package com.it.bos.service.bose;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

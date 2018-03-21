@@ -1,7 +1,11 @@
 package com.it.bos.dao.test;
 
+import java.util.Collection;
 import java.util.List;
 
+import javax.ws.rs.core.MediaType;
+
+import org.apache.cxf.jaxrs.client.WebClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.it.bos.dao.base.StandardRepository;
 import com.it.bos.domain.Standard;
+import com.it.crm.domain.Customer;
 
 /**  
  * ClassName:Test <br/>  
@@ -56,6 +61,22 @@ public class Text {
     @Test
     public void test05(){
         standardRepository.delete(2L);
+    }
+    @Test
+    public void fun06(){
+        Collection<? extends Customer> collection = WebClient
+        .create("http://localhost:8180/crm/webService/customerService/findAll")
+        .type(MediaType.APPLICATION_JSON)
+        .accept(MediaType.APPLICATION_JSON)
+        .getCollection(Customer.class);
+        for (Customer customer : collection) {
+            System.out.println(customer);
+        }
+    }
+    public void fun07(){
+        
+        WebClient.create("http://localhost:8180/crm/webService/customerService/findAll")
+        .getCollection(Customer.class);
     }
 }
   
