@@ -128,7 +128,19 @@ public class FixedAreaAction extends CommonAction<FixedArea> {
         
         return SUCCESS;
     }
+    private Long[] subAreaIds;
+    public void setSubAreaIds(Long[] subAreaIds) {
+        this.subAreaIds = subAreaIds;
+    }
         
+    @Action(value="fixedAreaAction_assignSubAreas2FixedArea",results={@Result(name="success",
+            location="/pages/base/fixed_area.html",type="redirect")})
+    public String assignSubAreas2FixedArea() {
+        
+       fixedAreaService.assignSubAreas2FixedArea(getModel().getId(),subAreaIds);
+        
+        return SUCCESS;
+    }
     
 }
   

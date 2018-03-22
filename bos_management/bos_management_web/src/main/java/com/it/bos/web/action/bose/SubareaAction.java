@@ -1,6 +1,7 @@
 package com.it.bos.web.action.bose;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
@@ -59,5 +60,26 @@ public class SubareaAction extends CommonAction<SubArea> {
         return SUCCESS;
     }
 
+    
+    @Action(value="subAreaAction_findUnAssociatedSubAreas")
+    public String findUnAssociatedSubAreas() throws IOException{
+     List<SubArea>list = subAreaService.findUnAssociatedSubAreas();
+     JsonConfig jsonConfig = new JsonConfig();
+     
+     jsonConfig.setExcludes(new String[]{"subareas","couriers"});
+     list2json(list, jsonConfig);
+        return NONE;
+    }
+    
+    //
+    @Action(value="subAreaAction_findAssociatedSubAreas")
+    public String findAssociatedSubAreas() throws IOException{
+     List<SubArea>list = subAreaService.findAssociatedSubAreas(getModel().getId());
+     JsonConfig jsonConfig = new JsonConfig();
+     
+     jsonConfig.setExcludes(new String[]{"subareas","couriers"});
+     list2json(list, jsonConfig);
+        return NONE;
+    }
 }
   
