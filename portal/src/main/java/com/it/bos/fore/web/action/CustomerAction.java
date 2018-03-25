@@ -74,6 +74,7 @@ public class CustomerAction extends ActionSupport implements ModelDriven<Custome
                     @Result(name="error",location="/signup-fail.html",
                     type="redirect")})
     public String regist() {
+        
       String code= (String) ServletActionContext.getRequest().getSession().getAttribute("serverCode");
         
       if (StringUtils.isNotEmpty(checkcode)&&checkcode.equals(code)) {

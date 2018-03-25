@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.it.crm.domain.Customer;
 
+import groovy.time.BaseDuration.From;
+
 
 /**  
  * ClassName:CustomerRepository <br/>  
@@ -35,5 +37,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>{
     Customer findByTelephone(String telephone);
     
     Customer findByTelephoneAndPassword(String telephone,String password);
+ 
+    @Query("select fixedAreaId from Customer where address = ?")
+    String findFixedAreaIdByAdddress(String address);
 }
   
