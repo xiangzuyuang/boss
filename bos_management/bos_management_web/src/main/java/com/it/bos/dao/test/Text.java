@@ -28,6 +28,7 @@ import com.it.crm.domain.Customer;
 // @ContextConfiguration("classpath:applicationContext.xml")
 public class Text {
 
+    
     @Autowired
     private StandardRepository standardRepository;
 
